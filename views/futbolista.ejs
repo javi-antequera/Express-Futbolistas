@@ -1,0 +1,35 @@
+<%- include("templates/cabecera", {tituloWeb: "Panel de Administración"}) %>
+
+<div class="container">
+    <h1>BBDD de futbolistas</h1>
+    <a class="btn btn-success btn-block my-4" href="/crear">
+    Crear nuevo futbolista</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Equipo</th>
+                <th scope="col">Liga</th>
+                <th scope="col">Nacionalidad</th>
+                <th scope="col">Goles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(arrayFutbolista.length>0){ %>
+
+                <% arrayFutbolista.forEach(futbolista=>{ %>
+            <tr>
+                <th scope="row"><%= futbolista.id %></th>
+                <td><%= futbolista.nombre %></td>
+                <td><%= futbolista.equipo %></td>
+                <td><%= futbolista.liga %></td>
+                <td><%= futbolista.nacionalidad %></td>
+                <td><%= futbolista.goles %></td>
+                <td><a class="btn btn-warning btn-sm" href="/<%= futbolista._id %>">Editar Borrar</a></td>
+            </tr>
+            <% }) %> <% } %>
+        </tbody>
+    </table>
+</div>
+

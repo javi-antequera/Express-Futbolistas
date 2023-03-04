@@ -1,0 +1,68 @@
+<%- include("templates/cabecera", {tituloWeb: "Detalles del Futbolista" }) %>
+    <div class="container">
+        <h1>Detalles del Futbolista</h1>
+        <% if (error) { %>
+            <%= mensaje %>
+                
+                <% } %>
+                    <% if (!error) { %>
+                        <a href="/" class="btn btn-dark btn-block my-2"> Volver</a>
+                        <form id="editar" data-id="<%= futbolista._id %>">
+                            <input type="number" value="<%= futbolista.id %>" class="form-control my-2" name="id" id="idInput">
+                            <input type="text" value="<%= futbolista.nombre %>" class="form-control my-2" name="nombre" id="nombreInput">
+                            <input type="text" value="<%= futbolista.equipo %>" class="form-control my-2" name="equipo" id="equipoInput">
+                            <input type="text" value="<%= futbolista.liga %>" class="form-control my-2" name="liga" id="ligaInput">
+                            <input type="text" value="<%= futbolista.nacionalidad %>" class="form-control my-2" name="nacionalidad" id="nacionalidadInput">
+                            <input type="number" value="<%= futbolista.goles %>" class="form-control my-2" name="goles" id="golesInput">
+                            <button class="btn btn-primary btn-sm" type="submit" >Actualizar</button>
+                        </form>
+                        <hr>
+                        <button id="eliminar" class="btn btn-danger btn-sm" data-id="<%= futbolista._id %>" >Eliminar</button>
+                        <% } %>
+    </div>
+
+    <script>
+        const btnEliminar=document.getElementById('eliminar')
+        btnEliminar.addEventListener('click',async()=>{
+            console.log(btnEliminar.dataset.id)
+            try{
+                const data=await fetch(`/${btnEliminar.dataset.id}`,{
+                    method:'delete'
+                })
+                const res=await data.json()
+                console.log(res)
+                if(res.estado){
+                    window.location.href='/'
+                }else{console.log(res)
+
+                }
+            }catch(error){
+                console.log(error)
+            }
+        })
+
+        const formEditar=document.querySelector('#editar');
+            formEditar.addEventListener('submit',async(e)=>{
+                e.preventDefault()
+                const id=formEditar.elements['id'].value
+                const nombre=formEditar.elements['nombre'].value
+                const equipo=formEditar.elements['equipo'].value
+                const liga=formEditar.elements['liga'].value
+                const nacionalidad=formEditar.elements['nacionalidad'].value
+                const goles=formEditar.elements['goles'].value
+                const _id=formEditar.dataset.id
+                const data=await fetch(`/${_id}`,{
+                    method:'PUT',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({id,nombre,equipo,liga,nacionalidad,goles})
+                })
+                const res=await data.json()
+                if(res.estado){
+                    window.location.href='/'
+                }else{
+                    console.log(res)
+                }
+            })
+    </script>
