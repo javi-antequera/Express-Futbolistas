@@ -23,8 +23,10 @@
 
     <script>
         const btnEliminar=document.getElementById('eliminar')
-        btnEliminar.addEventListener('click',async()=>{
+            btnEliminar.addEventListener('click',async()=>{
             console.log(btnEliminar.dataset.id)
+            eliminar=confirm("¿Seguro que deseas eliminar este jugador? (Esta acción es irreversible)")
+            if(eliminar){
             try{
                 const data=await fetch(`/${btnEliminar.dataset.id}`,{
                     method:'delete'
@@ -39,7 +41,8 @@
             }catch(error){
                 console.log(error)
             }
-        })
+        }})
+
 
         const formEditar=document.querySelector('#editar');
             formEditar.addEventListener('submit',async(e)=>{
